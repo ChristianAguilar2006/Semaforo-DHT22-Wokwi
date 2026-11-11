@@ -1,11 +1,28 @@
 # Taller de temperatura y humedad
 
+Semáforo con sensor DHT22 y pulsador en un Arduino UNO simulado en Wokwi. Las lecturas se capturan con RealTerm y con Python, que además genera las gráficas.
+
+## Requisitos
+
+Necesitas instalar todo lo siguiente. No hace falta un Arduino ni un sensor físico.
+
+| Herramienta | Para qué se usa | Descarga |
+|---|---|---|
+| Visual Studio Code (o Cursor) | Abrir el proyecto y correr la simulación | [code.visualstudio.com](https://code.visualstudio.com/) |
+| Extensión **Wokwi Simulator** | Simular el Arduino, el DHT22 y el semáforo. Requiere cuenta de Wokwi y licencia | [Marketplace](https://marketplace.visualstudio.com/items?itemName=Wokwi.wokwi-vscode) |
+| Arduino IDE 2 | Compilar el código y generar el `.hex` | [arduino.cc/en/software](https://www.arduino.cc/en/software) |
+| Librerías **DHT sensor library** y **Adafruit Unified Sensor** | Leer el DHT22 desde el código | Desde Arduino IDE, en **Sketch → Include Library → Manage Libraries** |
+| RealTerm | Grabar al menos 100 filas del puerto serial | [sourceforge.net/projects/realterm](https://sourceforge.net/projects/realterm/) |
+| Python 3, con "Add Python to PATH" marcado | Capturar 500 lecturas y graficarlas | [python.org/downloads](https://www.python.org/downloads/) |
+
+Para activar Wokwi en VS Code, abre la paleta con **F1**, ejecuta **Wokwi: Request a New License** e inicia sesión con tu cuenta de Wokwi en el navegador.
+
 ## Arrancar el circuito
 
-1. Extrae la carpeta `Taller_DHT22` y ábrela en VS Code con **File → Open Folder**.
-2. En Arduino IDE abre `SemaforoDHT22/SemaforoDHT22.ino`. Selecciona **Arduino UNO**. El código usa **DHT sensor library** y **Adafruit Unified Sensor**, ambas de Adafruit.
-3. Usa **Sketch → Export Compiled Binary**. El archivo esperado es `SemaforoDHT22/build/arduino.avr.uno/SemaforoDHT22.ino.hex`. Si el IDE lo deja en otra ruta, ajusta `firmware` en `wokwi.toml` con la ruta relativa y barras `/`.
-4. Regresa a VS Code y pulsa **Wokwi → Start Simulation**. La terminal debe mostrar una línea con temperatura y humedad cada 2,1 segundos. Haz clic en el DHT22 para variar sus valores.
+1. Descarga el proyecto con `git clone https://github.com/ChristianAguilar2006/Semaforo-DHT22-Wokwi.git`, o desde GitHub con **Code → Download ZIP**. Abre la carpeta en VS Code con **File → Open Folder**.
+2. En Arduino IDE abre `SemaforoDHT22/SemaforoDHT22.ino` y selecciona la placa **Arduino UNO**. Instala las dos librerías de Adafruit de la tabla anterior si aún no las tienes.
+3. Usa **Sketch → Export Compiled Binary**. El archivo esperado es `SemaforoDHT22/build/arduino.avr.uno/SemaforoDHT22.ino.hex`. Si el IDE lo deja en otra ruta, ajusta `firmware` en `wokwi.toml` con la ruta relativa y barras `/`. Repite este paso cada vez que cambies el `.ino`.
+4. Regresa a VS Code, abre la paleta con **F1** y ejecuta **Wokwi: Start Simulator**. La terminal de Wokwi debe mostrar una línea con temperatura y humedad cada 2,1 segundos aproximadamente. Haz clic en el DHT22 para variar sus valores.
 
 ## Probar el semáforo
 
@@ -27,11 +44,13 @@ Los límites se aplican literalmente. Los valores sin color asignado por el enun
 2. En RealTerm, entra en **Port**, escribe `127.0.0.1:4000` en el campo **Port**, selecciona **Telnet** en **Winsock** y pulsa **Open**. Busca líneas con dos números separados por coma.
 3. Ve a **Capture**, elige un archivo llamado `realterm.txt` y pulsa **Start Overwrite**. Tras cuatro minutos, detén la captura y verifica que haya al menos 100 líneas con dos números. Guarda una captura de RealTerm y otra del archivo. Luego cierra la conexión de RealTerm.
 
+Wokwi acepta una sola conexión a la vez en el puerto 4000. Cierra RealTerm antes de ejecutar Python, o Python no podrá conectarse.
+
 ## Capturar 500 filas y graficar con Python
 
 `graficas.py` es el script de clase modificado. Conserva la conexión a `rfc2217://localhost:4000` y las dos gráficas en tiempo real, y además guarda cada lectura en `data.txt`, se detiene al llegar a 500 lecturas y guarda la figura en `graficas.png`.
 
-La primera vez, crea el entorno virtual e instala los paquetes desde PowerShell en `Taller_DHT22`.
+La primera vez, crea el entorno virtual e instala los paquetes desde PowerShell en la carpeta del proyecto.
 
 ```powershell
 py -m venv .venv
