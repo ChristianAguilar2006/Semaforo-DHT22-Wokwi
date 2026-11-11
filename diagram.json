@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-dht22", "id": "dht", "top": -55, "left": 335, "attrs": {} },
+    { "type": "wokwi-pushbutton", "id": "boton", "top": 95, "left": 340, "attrs": { "color": "blue", "label": "Pulsador", "key": "B", "bounce": "0" } },
+    { "type": "wokwi-led", "id": "rojo", "top": -175, "left": 100, "attrs": { "color": "red" } },
+    { "type": "wokwi-led", "id": "amarillo", "top": -175, "left": 165, "attrs": { "color": "yellow" } },
+    { "type": "wokwi-led", "id": "verde", "top": -175, "left": 230, "attrs": { "color": "green" } },
+    { "type": "wokwi-resistor", "id": "rRojo", "top": -85, "left": 95, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rAmarillo", "top": -85, "left": 160, "rotate": 90, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rVerde", "top": -85, "left": 225, "rotate": 90, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    ["dht:VCC", "uno:5V", "red", []],
+    ["dht:GND", "uno:GND.2", "black", []],
+    ["dht:SDA", "uno:2", "cyan", []],
+    ["boton:1.l", "uno:3", "blue", []],
+    ["boton:2.l", "uno:GND.3", "black", []],
+    ["uno:8", "rRojo:2", "red", []],
+    ["rRojo:1", "rojo:A", "red", []],
+    ["rojo:C", "uno:GND.1", "black", []],
+    ["uno:7", "rAmarillo:2", "gold", []],
+    ["rAmarillo:1", "amarillo:A", "gold", []],
+    ["amarillo:C", "uno:GND.1", "black", []],
+    ["uno:6", "rVerde:2", "green", []],
+    ["rVerde:1", "verde:A", "green", []],
+    ["verde:C", "uno:GND.1", "black", []]
+  ]
+}
